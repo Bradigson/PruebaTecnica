@@ -20,6 +20,9 @@ interface Aseguradoratype{
 
 
 
+interface Props{
+    tokenURL : string
+}
 
 const Home = ()=>{
 
@@ -27,7 +30,7 @@ const Home = ()=>{
     const [loading, setLoading] = useState<boolean>();
     const aseguradora = useAppSelector(state=> state.aseguradora.aseguradora);
     const dispatch = useAppDispatch();
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJCcmFkaWdzb24iLCJuYmYiOjE2NzgwMjM4MzgsImV4cCI6MTY3ODExMDIzOCwiaWF0IjoxNjc4MDIzODM4fQ.cYBBh7to9yI4qTRoHX_VvHdSxN3Dghd_M0oFVsickQY")
+    const [token, setToken] = useState(tokenURL)
     const [actualName, setActualName] = useState<string>();
     const [actualId, setActualId] = useState<number>();
     const [actualComision, setActualComision] = useState<number>();
@@ -45,7 +48,7 @@ const Home = ()=>{
         axios("https://www.apiaseguradora.somee.com/api/Aseguradora",{
             headers:{
                 Accept:'application/json',
-                Authorization : `Bearer ${token}`
+                Authorization : `Bearer ${tokenURL}`
             }
         }).then(p=> dispatch(readAseguradora(p.data)))
         .catch(err=> console.log(err))
