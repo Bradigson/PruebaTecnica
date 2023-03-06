@@ -1,4 +1,8 @@
 # PruebaTecnica
+
+url frontend : https://quiet-lolly-b6aca4.netlify.app/#/
+url backend : https://www.apiaseguradora.somee.com/swagger/index.html
+
 npm : 8.19 v
 node : 16.15 v
 Backend readme 
