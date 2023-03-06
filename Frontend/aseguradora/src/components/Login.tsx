@@ -6,7 +6,11 @@ import validator from "validator";
 import { loginCreateAseguradora } from "../services/Edit";
 import {useNavigate} from 'react-router-dom';
 
-const Login = ()=>{
+interface Props{
+    token : React.Dispatch<string>;
+    onClick : (message : string)=> void
+}
+const Login = ({token, onClick}:Props)=>{
     const [loginCreate, setLoginCreate] = useState<logininterfaceCreate>({
         name: "",
         password:""
@@ -41,14 +45,20 @@ const Login = ()=>{
         }else if(validator.isEmpty(loginCreate.password)){
             setErrorMessage("Debe de ingresar su contraseñas");
         }else{
-            await loginCreateAseguradora(setLoginResponse, loginCreate.name, loginCreate.password);
-            login(loginCreate.name);
-            setLoginCreate({
-                name: "",
-                password:""
-            });
-            localStorage.setItem("token", loginResponse.token);
-            navigate("/home");
+            const options = {
+                method: 'POST',
+                url: 'https://www.apiaseguradora.somee.com/api/Aseguradora/login',
+                data: {name: loginCreate.name, password: loginCreate.password}
+                };
+            
+                await axios.request(options).then(function (response) {
+                   onClick(response.data.token);
+                   login(loginCreate.name);
+                   navigate("/home");
+                 localStorage.setItem("test", response.data.token);
+                }).catch(function (error) { 
+                    console.error(error);
+                });
         }
     }
 
