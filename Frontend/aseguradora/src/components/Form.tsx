@@ -8,9 +8,12 @@ import '../assets/styles/Form.scss';
 import { createdAseguradora } from "./alerts/Alerts";
 import {useNavigate} from 'react-router-dom'
 
+interface Props {
+    tokenURL: string
+}
 
 
-const Form = ()=>{
+const Form = ({tokenURL}:Props)=>{
     
     const [stado, setStado] = useState<boolean>(false);
     const [token, setToken] = useState<string>("");
@@ -50,32 +53,31 @@ const Form = ()=>{
         if(validator.isEmpty(create.nombre)){
             setErrorMessage("debe de ingresar un nombre");
         }else{
-            setLoadin(true);
-            const options = {
-                method: 'POST',
-                url: 'https://www.apiaseguradora.somee.com/api/Aseguradora/create',
-                headers: {
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJCcmFkaWdzb24iLCJuYmYiOjE2NzgwMjM4MzgsImV4cCI6MTY3ODExMDIzOCwiaWF0IjoxNjc4MDIzODM4fQ.cYBBh7to9yI4qTRoHX_VvHdSxN3Dghd_M0oFVsickQY'
-                },
-                data: {nombre: create.nombre, comision: create.comision, estado: stado}
-            };
-            
-            axios.request(options).then(function (response) {
-                setResponse(response.data);
-                setLoadin(false);
-                createdAseguradora(create.nombre);
-                setCreate({
-                    id:0,
-                    nombre : "",
-                    comision : 0,
-                    stado:false
+    const options = {
+                    method: 'POST',
+                    url: 'https://www.apiaseguradora.somee.com/api/Aseguradora/create',
+                    headers: {
+                    Authorization: `Bearer ${tokenURL}`
+                    },
+                    data: {nombre: create.nombre, comision: create.comision, estado: stado}
+                };
+                
+                axios.request(options).then(function (response) {
+                    setResponse(response.data);
+                    setLoadin(false);
+                    createdAseguradora(create.nombre);
+                    setCreate({
+                        id:0,
+                        nombre : "",
+                        comision : 0,
+                        stado:false
+                    });
+                    setStado(!false);
+                }).catch(function (error) {
+                    console.error(error);
+                    setLoadin(false);
+                    setErrorMessage(error);
                 });
-                setStado(!false);
-            }).catch(function (error) {
-                console.error(error);
-                setLoadin(false);
-                setErrorMessage(error);
-            });
                 
             }
             
