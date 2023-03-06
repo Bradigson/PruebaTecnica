@@ -1,4 +1,6 @@
 # PruebaTecnica
+npm : 8.19 v
+node : 16.15 v
 Backend readme 
 
 Descripción
