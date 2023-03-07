@@ -24,7 +24,7 @@ interface Props{
     tokenURL : string
 }
 
-const Home = ()=>{
+const Home = ({tokenURL}:Props)=>{
 
     const [state, setState] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>();
